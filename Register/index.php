@@ -50,62 +50,22 @@
             <?php if(isset($_GET["regSuccess"])) { ?>
                 <script>alert("რეგისტრაცია წარმატებით გაიარეთ!")</script>
             <?php } ?>
-            <input type="text" name="username" placeholder="Enter your username..." value="<?php
-            if (isset($_GET["username"])) {
-                echo $_GET["username"];
+            <?php
+            $names = ["username", "fname", "lname", "age", "email", "password", "verifyPassword", "phone"];
+            $types = ["text", "text", "text", "text", "text", "password", "password", "text", ];
+            $placeholders = ["Enter your username...", "Enter your first name...", "Enter your last name...",
+                            "Enter your age...", "Enter your email...", "Enter your password...", "Verify your password...", "Enter your phone number..."];
+            $errors = ["usernameError", "firstNameError", "lastNameError", "ageError", "emailError", "passError", "verifyPassError", "phoneError"];
+            for ($i = 0; $i < 8; $i++) { ?>
+                <input type='<?php echo $types[$i];?>' name='<?php echo $names[$i];?>' placeholder='<?php echo $placeholders[$i] ?>' value='<?php
+            if (isset($_GET[$names[$i]])) {
+                echo $_GET[$names[$i]];
             }
-            ?>">
-            <?php if (isset($_GET["usernameError"])) { ?>
-            <div class="error">* <?php echo $_GET["usernameError"];?></div>
-            <?php } ?>
-            <input type="text" name="fname" placeholder="Enter your first name..." value="<?php
-            if (isset($_GET["fname"])) {
-                echo $_GET["fname"];
-            }
-            ?>">
-            <?php if (isset($_GET["firstNameError"])) { ?>
-            <div class="error">* <?php echo $_GET["firstNameError"];?></div>
-            <?php } ?>
-            <input type="text" name="lname" placeholder="Enter your last name..." value="<?php
-            if (isset($_GET["lname"])) {
-                echo $_GET["lname"];
-            }
-            ?>">
-            <?php if (isset($_GET["lastNameError"])) { ?>
-            <div class="error">* <?php echo $_GET["lastNameError"];?></div>
-            <?php } ?>
-            <input type="text" name="age" placeholder="Enter your age..." value="<?php
-            if (isset($_GET["age"])) {
-                echo $_GET["age"];
-            }
-            ?>">
-            <?php if (isset($_GET["ageError"])) { ?>
-            <div class="error">* <?php echo $_GET["ageError"];?></div>
-            <?php } ?>
-            <input type="text" name="email" placeholder="Enter your email..." value="<?php
-            if (isset($_GET["email"])) {
-                echo $_GET["email"];
-            }
-            ?>">
-            <?php if (isset($_GET["emailError"])) { ?>
-            <div class="error">* <?php echo $_GET["emailError"];?></div>
-            <?php } ?>
-            <input type="password" name="password" placeholder="Enter your password...">
-            <?php if (isset($_GET["passError"])) { ?>
-            <div class="error">* <?php echo $_GET["passError"];?></div>
-            <?php } ?>
-            <input type="password" name="verifyPassword" placeholder="Verify your password...">
-            <?php if (isset($_GET["verifyPassError"])) { ?>
-            <div class="error">* <?php echo $_GET["verifyPassError"];?></div>
-            <?php } ?>
-            <input type="text" name="phone" placeholder="Enter your phone number..." value="<?php
-            if (isset($_GET["phone"])) {
-                echo $_GET["phone"];
-            }
-            ?>">
-            <?php if (isset($_GET["phoneError"])) { ?>
-            <div class="error">* <?php echo $_GET["phoneError"];?></div>
-            <?php } ?>
+            ?>'>
+            <?php if (isset($_GET[$errors[$i]])) { ?>
+            <div class="error">* <?php echo $_GET[$errors[$i]];?></div>
+            <?php }
+            } ?>
             <input style="color: white;" type="file" name="profilePhoto" id="profilePhoto">
             <?php if (isset($_GET["profilePhotoError"])) { ?>
             <div class="error">* <?php echo $_GET["profilePhotoError"];?></div>
