@@ -15,11 +15,7 @@ if (filesize("../text.txt") != 0) {
         }
     }
 }
-fclose($myfile);
 
-$username = $fname = $lname = $age = $email = $password = $phone = "";
-$usernameError = $firstNameError = $lastNameError = $ageError = $emailError = $passError
-= $verifyPassError = $phoneError = $profilePhotoError = "";
 $errArr = [];
 $sucArr =[];
 
@@ -31,7 +27,7 @@ function pushError(&$errArr, $errName, $error) {
 
 function pushSuccess(&$sucArr, $sucName, $success) {
     if (!empty($success)) {
-        $sucArr[$sucName] = $success;
+        $sucArr[$sucName] = modify_input($success);
     } 
 }
 
@@ -61,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fname = ucfirst($fname);
         $fname = modify_input($fname)." ";
     }
-    pushError($errArr, "firstnameError", $firstNameError);
+    pushError($errArr, "firstNameError", $firstNameError);
     pushSuccess($sucArr, "fname", $fname);
 
     if (empty($_POST["lname"])) {
@@ -144,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $target_dir = "../uploads/";
     $target_file = $target_dir.basename($_FILES["profilePhoto"]["name"]);
     $uploadOk = 0;
-    $fileType = strtolower(basename($_FILES["profilePhoto"]["type"]));
+    $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
     if (!empty($_FILES["profilePhoto"]["name"])) {
         $checkPhoto = getimagesize($_FILES["profilePhoto"]["tmp_name"]);
@@ -175,9 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $data = [$username, $fname, $lname, $age, $email, $password, $phone];
-$myfile = fopen("../text.txt", "a+") or die("Unable to open file!");
-if ($usernameError == "" && $firstNameError == "" && $lastNameError == "" && $ageError == "" && 
-$emailError == "" && $passError == "" && $verifyPassError == "" && $phoneError == "" && $profilePhotoError == "") {
+if (isset($username) && isset($fname) && isset($lname) && isset($age) && isset($email) && isset($password) && isset($phone)) {
     foreach ($data as $key => $value) {
         fwrite($myfile, $value);
     }
@@ -188,7 +182,6 @@ $emailError == "" && $passError == "" && $verifyPassError == "" && $phoneError =
         fwrite($myfile, " ../uploads/random.png");
     }
 }
-fclose($myfile);
 
 function modify_input($data) {
     $data = trim($data);
@@ -201,11 +194,7 @@ if (count($errArr) > 0) {
     $link = "index.php?regSuccess=".$regSuccess;
 }
 
+fclose($myfile);
 header("Location: ".$link);
-var_dump($errArr);
-echo "<br>";
-var_dump($sucArr);
-echo "<br>";
-echo $link;
 
 ?>
